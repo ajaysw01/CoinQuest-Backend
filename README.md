@@ -1,4 +1,4 @@
-#CoinQuest
+# CoinQuest
 Backend project using Spring Boot
 ## Er Diagram
 
