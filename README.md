@@ -1,5 +1,24 @@
 # CoinQuest
-Backend project using Spring Boot
+A comprehensive cryptocurrency trading platform built with Spring Boot, offering a wide range of features for secure and efficient crypto asset management.
+
+## Features
+- User Management
+- Asset Management
+- Wallet-to-Wallet Transfer
+- AI Chatbot (powered by Gemini API)
+- Payment Gateway Integration
+- JWT Authentication
+- Two-Factor Authentication
+- Transaction Management
+
+## Technologies Used
+- Spring Boot
+- Java
+- Maven
+- JWT (JSON Web Tokens)
+- Gemini API
+  
+
 ## Er Diagram
 
 ```
