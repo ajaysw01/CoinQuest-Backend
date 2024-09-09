@@ -1,219 +1,173 @@
-# CoinQuest
-Developed a comprehensive cryptocurrency trading platform using Spring Boot, focusing on secure and efficient crypto asset management. Key features include user management, asset and wallet management, wallet-to-wallet transfers, and transaction management. Integrated AI chatbot using the Gemini API for enhanced user interaction. Implemented secure payment gateway integration and robust JWT-based authentication with two-factor authentication (2FA) to ensure transaction security.
-This project showcases advanced backend development skills and expertise in secure transaction management, AI integration, and modern authentication techniques, making it a strong foundation for full-stack Java development roles.
+# CoinQuest - Cryptocurrency Trading Platform
 
+**CoinQuest** is a comprehensive cryptocurrency trading platform developed using Spring Boot. The platform focuses on secure and efficient crypto asset management, offering a range of features such as user management, asset and wallet management, wallet-to-wallet transfers, and transaction management. The platform also integrates an AI chatbot using the Gemini API for enhanced user interaction, and implements secure payment gateway integration with robust JWT-based authentication and two-factor authentication (2FA) for transaction security.
 
 ## Features
-- User Management
-- Asset Management
-- Wallet-to-Wallet Transfer
-- AI Chatbot (powered by Gemini API)
-- Payment Gateway Integration
-- JWT Authentication
-- Two-Factor Authentication
-- Transaction Management
+
+- **User Management**: Register, login, and manage user accounts with role-based access control.
+- **Asset Management**: Track and manage crypto assets, including deposits and withdrawals.
+- **Wallet-to-Wallet Transfer**: Seamlessly transfer funds between wallets with secure transaction management.
+- **AI Chatbot**: Integrated AI chatbot powered by the Gemini API for enhanced user support and trading assistance.
+- **Payment Gateway Integration**: Secure payment processing using Razorpay.
+- **JWT Authentication**: Secure authentication and authorization using JSON Web Tokens (JWT).
+- **Two-Factor Authentication (2FA)**: Added layer of security for user logins and transactions.
+- **Transaction Management**: Comprehensive management of transaction history and status tracking.
 
 ## Technologies Used
-- Spring Boot
-- Spring Security
-- MySQL
-- Java
-- Maven
-- Gemini API
-  
-# Database Tables
 
-## Users Table
+- **Backend**: Spring Boot, Spring Security
+- **Database**: MySQL
+- **Programming Language**: Java
+- **Build Tool**: Maven
+- **AI Integration**: Gemini API
+- **Payment Gateway**: Razorpay
+- **Authentication**: JWT, Two-Factor Authentication (2FA)
 
-| Field                   | Type    |
-|-------------------------|---------|
-| id                      | bigint  |
-| fullName                | varchar |
-| email                   | varchar |
-| mobile                  | varchar |
-| password                | varchar |
-| status                  | varchar |
-| isVerified              | boolean |
-| twoFactorAuth_enabled   | boolean |
-| twoFactorAuth_sendTo    | varchar |
-| picture                 | varchar |
-| role                    | varchar |
 
-## Coins Table
+### Endpoints : 
+### Coin Endpoints
+- **GET `/coins?page={page}`**: Fetches a paginated list of coins.
+- **GET `/coins/{coinId}/chart?days={days}`**: Fetches market chart data for a specific coin over a specified number of days.
+- **GET `/coins/search?q={keyword}`**: Searches for a coin by keyword.
+- **GET `/coins/top50`**: Fetches the top 50 coins by market cap rank.
+- **GET `/coins/trading`**: Fetches trending coins.
+- **GET `/coins/details/{coinId}`**: Fetches detailed information for a specific coin.
 
-| Field                   | Type    |
-|-------------------------|---------|
-| id                      | varchar |
-| symbol                  | varchar |
-| name                    | varchar |
-| image                   | varchar |
-| current_price           | double  |
-| market_cap              | bigint  |
-| market_cap_rank         | int     |
-| fully_diluted_valuation | bigint  |
-| total_volume            | bigint  |
-| high_24h                | double  |
-| low_24h                 | double  |
-| price_change_24h        | double  |
-| price_change_percentage_24h | double  |
-| market_cap_change_24h   | bigint  |
-| market_cap_change_percentage_24h | double  |
-| circulating_supply      | bigint  |
-| total_supply            | bigint  |
-| max_supply              | bigint  |
-| ath                     | double  |
-| ath_change_percentage   | double  |
-| ath_date                | datetime|
-| atl                     | double  |
-| atl_change_percentage   | double  |
-| atl_date                | datetime|
-| roi                     | varchar |
-| last_updated            | datetime|
+### Payment Endpoints
+- **POST `/api/payment/{paymentMethod}/amount/{amount}`**: Handles payments using Razorpay or Stripe.
+- **POST `/api/payment-details`**: Adds payment details for a user.
+- **GET `/api/payment-details`**: Retrieves a user's payment details.
 
-## Assets Table
+### User Endpoints
+- **GET `/api/users/profile`**: Retrieves the profile of the currently authenticated user.
+- **GET `/api/users/{userId}`**: Fetches a user's details by their ID.
+- **GET `/api/users/email/{email}`**: Fetches a user's details by their email.
+- **PATCH `/api/users/enable-two-factor/verify-otp/{otp}`**: Enables two-factor authentication after verifying an OTP.
+- **PATCH `/api/users/verification/verify-otp/{otp}`**: Verifies a user's OTP to complete verification.
+- **POST `/api/users/verification/{verificationType}/send-otp`**: Sends a verification OTP to the user.
 
-| Field     | Type    |
-|-----------|---------|
-| id        | bigint  |
-| quantity  | double  |
-| buy_price | double  |
-| coin_id   | varchar |
-| user_id   | bigint  |
+### Password Reset Endpoints
+- **PATCH `/auth/users/reset-password/verify-otp`**: Resets a user's password after verifying an OTP.
+- **POST `/auth/users/reset-password/send-otp`**: Sends an OTP for password reset.
 
-## Withdrawals Table
 
-| Field  | Type    |
-|--------|---------|
-| id     | bigint  |
-| status | varchar |
-| amount | bigint  |
-| user_id| bigint  |
-| date   | datetime|
+### **VerificationController**
+- This controller manages verification operations related to the user, like enabling two-factor authentication and sending OTPs. No specific endpoints have been defined yet.
 
-## Watchlists Table
+### **WalletController**
+- **GET `/api/wallet`**: Retrieves the authenticated user's wallet.
+- **GET `/api/wallet/transactions`**: Fetches the authenticated user's wallet transactions.
+- **PUT `/api/wallet/deposit/amount/{amount}`**: Deposits money into the user's wallet.
+- **PUT `/api/wallet/deposit`**: Adds money to the wallet after payment completion.
+- **PUT `/api/wallet/{walletId}/transfer`**: Transfers funds from one wallet to another.
+- **PUT `/api/wallet/order/{orderId}/pay`**: Pays for an order using wallet funds.
 
-| Field   | Type    |
-|---------|---------|
-| id      | bigint  |
-| user_id | bigint  |
+### **WatchlistController**
+- **GET `/api/watchlist/user`**: Retrieves the authenticated user's watchlist.
+- **POST `/api/watchlist/create`**: Creates a watchlist for the authenticated user.
+- **GET `/api/watchlist/{watchlistId}`**: Retrieves a watchlist by its ID.
+- **PATCH `/api/watchlist/add/coin/{coinId}`**: Adds a coin to the user's watchlist.
 
-## Watchlist_Coins Table
+### **WithdrawalController**
+- **POST `/api/withdrawal/{amount}`**: Initiates a withdrawal request for a specific amount.
+- **PATCH `/api/admin/withdrawal/{id}/proceed/{accept}`**: Admin proceeds with or rejects a withdrawal request.
+- **GET `/api/withdrawal`**: Retrieves the user's withdrawal history.
+- **GET `/api/admin/withdrawal`**: Retrieves all withdrawal requests (admin-only).
 
-| Field         | Type    |
-|---------------|---------|
-| watchlist_id  | bigint  |
-| coin_id       | varchar |
+### **AssetController**
 
-## WalletTransactions Table
+- **`GET /api/assets/{assetId}`**  
+  Retrieves the asset by its unique ID.
 
-| Field       | Type    |
-|-------------|---------|
-| id          | bigint  |
-| wallet_id   | bigint  |
-| type        | varchar |
-| date        | datetime|
-| transfer_id | varchar |
-| purpose     | varchar |
-| amount      | bigint  |
+- **`GET /api/assets/coin/{coinId}/user`**  
+  Retrieves an asset based on the user's ID and coin ID, using JWT for authentication.
 
-## Wallets Table
+- **`GET /api/assets`**  
+  Retrieves all assets for the authenticated user, using JWT for authentication.
 
-| Field   | Type      |
-|---------|-----------|
-| id      | bigint    |
-| user_id | bigint    |
-| balance | decimal   |
+### **AuthController**
 
-## VerificationCodes Table
+- **`POST /auth/signup`**  
+  Registers a new user. Validates email uniqueness, creates the user, and returns a JWT token for authentication.
 
-| Field             | Type    |
-|-------------------|---------|
-| id                | bigint  |
-| otp               | varchar |
-| user_id           | bigint  |
-| email             | varchar |
-| mobile            | varchar |
-| verification_type | varchar |
+- **`POST /auth/signin`**  
+  Authenticates a user. Returns a JWT token if the user is authenticated successfully, or prompts for 2FA if enabled.
 
-## TradingHistories Table
+- **`GET /auth/login/google`**  
+  Redirects to Google OAuth2 authorization URI for Google login.
 
-| Field         | Type    |
-|---------------|---------|
-| id            | bigint  |
-| selling_price | double  |
-| buying_price  | double  |
-| coin_id       | varchar |
-| user_id       | bigint  |
+- **`GET /auth/login/oauth2/code/google`**  
+  Handles Google OAuth2 callback and creates a user based on the Google account information.
 
-## PaymentOrders Table
+- **`POST /auth/two-factor/otp/{otp}`**  
+  Verifies a two-factor authentication OTP. Returns a JWT token if the OTP is valid.
 
-| Field         | Type    |
-|---------------|---------|
-| id            | bigint  |
-| amount        | bigint  |
-| status        | varchar |
-| payment_method| varchar |
-| user_id       | bigint  |
+### **ChatBotController**
 
-## PaymentDetails Table
+- **`GET /chat/coin/{coinName}`**  
+  Retrieves details for a specified coin by name.
 
-| Field               | Type    |
-|---------------------|---------|
-| id                  | bigint  |
-| account_number      | varchar |
-| account_holder_name | varchar |
-| ifsc                | varchar |
-| bank_name           | varchar |
-| user_id             | bigint  |
+- **`POST /chat/bot`**  
+  Sends a prompt to the chatbot and retrieves a simple chat response.
 
-## Orders Table
+- **`POST /chat/bot/coin`**  
+  Sends a prompt to the chatbot to get real-time coin details.
 
-| Field        | Type      |
-|--------------|-----------|
-| id           | bigint    |
-| user_id      | bigint    |
-| order_type   | varchar   |
-| price        | decimal   |
-| timestamp    | datetime  |
-| status       | varchar   |
-| order_item_id| bigint    |
+### **OrderController**
 
-## OrderItems Table
+- **`POST /api/orders/pay`**  
+  Processes an order for a specified coin, using JWT for user authentication and order details.
 
-| Field        | Type    |
-|--------------|---------|
-| id           | bigint  |
-| quantity     | double  |
-| coin_id      | varchar |
-| buy_price    | double  |
-| sell_price   | double  |
-| order_id     | bigint  |
+- **`GET /api/orders/{orderId}`**  
+  Retrieves an order by its ID. Ensures the order belongs to the authenticated user.
 
-## Notifications Table
+- **`GET /api/orders`**  
+  Retrieves all orders for the authenticated user. Supports filtering by order type and asset symbol.
 
-| Field        | Type    |
-|--------------|---------|
-| id           | bigint  |
-| from_user_id | bigint  |
-| to_user_id   | bigint  |
-| amount       | bigint  |
-| message      | varchar |
 
-## MarketChartData Table
+## Installation
 
-| Field        | Type    |
-|--------------|---------|
-| id           | bigint  |
-| timestamp    | datetime|
-| price        | double  |
+1. **Clone the repository**:
+   ```bash
+   git clone git@github.com:ajaysw01/CoinQuest-Backend.git
+   ```
+2. **Navigate to the project directory**:
+   ```bash
+   cd CoinQuest-Backend
+   ```
+3. **Install dependencies**:
+   ```bash
+   mvn clean install
+   ```
+4. **Configure database**:
+   - Update the `application.properties` file with your MySQL database details.
 
-## ForgotPasswordTokens Table
+5. **Run the application**:
+   ```bash
+   mvn spring-boot:run
+   ```
 
-| Field             | Type    |
-|-------------------|---------|
-| id                | varchar |
-| user_id           | bigint  |
-| otp               | varchar |
-| verification_type | varchar |
-| send_to           | varchar |
+## Usage
 
+1. **User Registration and Login**:
+   - Use the provided endpoints to register and log in users, with JWT and 2FA for security.
+
+2. **Asset and Wallet Management**:
+   - Access endpoints for managing crypto assets and performing wallet-to-wallet transfers.
+
+3. **AI Chatbot Integration**:
+   - Interact with the AI chatbot for trading assistance using the Gemini API.
+
+4. **Secure Payments**:
+   - Integrate Razorpay for secure payment processing.
+
+## Contributing
+
+1. Fork the repository.
+2. Create a new branch: `git checkout -b feature-name`.
+3. Make your changes and commit them: `git commit -m 'Add some feature'`.
+4. Push to the branch: `git push origin feature-name`.
+5. Submit a pull request.
+
+## License
+This project is licensed under the MIT License.
