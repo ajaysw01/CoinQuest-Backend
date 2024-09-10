@@ -37,19 +37,14 @@ public class ChatBotServiceImpl implements ChatBotService{
         String url = "https://api.coingecko.com/api/v3/coins/"+currencyName.toLowerCase();
 
         RestTemplate restTemplate = new RestTemplate();
-
             HttpHeaders headers = new HttpHeaders();
-
-
             HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-
             ResponseEntity<Map> responseEntity = restTemplate.getForEntity(url, Map.class);
             Map<String, Object> responseBody = responseEntity.getBody();
             if (responseBody != null) {
                 Map<String, Object> image = (Map<String, Object>) responseBody.get("image");
 
                 Map<String, Object> marketData = (Map<String, Object>) responseBody.get("market_data");
-
                 CoinDTO coinInfo = new CoinDTO();
                 coinInfo.setId((String) responseBody.get("id"));
                 coinInfo.setSymbol((String) responseBody.get("symbol"));
