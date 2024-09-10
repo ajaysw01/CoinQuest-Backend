@@ -131,19 +131,14 @@ public class CoinServiceImpl implements CoinService{
 
     @Override
     public String getCoinDetails(String coinId) throws JsonProcessingException {
-
         String baseUrl ="https://api.coingecko.com/api/v3/coins/"+coinId;
-
         System.out.println("------------------ get coin details base url "+baseUrl);
         HttpHeaders headers = new HttpHeaders();
         headers.set("x-cg-demo-api-key", API_KEY);
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
-
-
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.GET, entity, String.class);
-
 //        Coin coins = objectMapper.readValue(response.getBody(), new TypeReference<>() {
 //        });
 //        coinRepository.save(coins);
@@ -152,14 +147,12 @@ public class CoinServiceImpl implements CoinService{
         System.out.println(jsonNode.get("image").get("large"));
 
         Coin coin = new Coin();
-
         coin.setId(jsonNode.get("id").asText());
         coin.setSymbol(jsonNode.get("symbol").asText());
         coin.setName(jsonNode.get("name").asText());
         coin.setImage(jsonNode.get("image").get("large").asText());
 
         JsonNode marketData = jsonNode.get("market_data");
-
         coin.setCurrentPrice(marketData.get("current_price").get("usd").asDouble());
         coin.setMarketCap(marketData.get("market_cap").get("usd").asLong());
         coin.setMarketCapRank(jsonNode.get("market_cap_rank").asInt());
@@ -187,18 +180,12 @@ public class CoinServiceImpl implements CoinService{
     @Override
     public String searchCoin(String keyword) {
         String baseUrl ="https://api.coingecko.com/api/v3/search?query="+keyword;
-
         HttpHeaders headers = new HttpHeaders();
     //    headers.set("x-cg-demo-api-key", API_KEY);
-
         HttpEntity<String> entity = new HttpEntity<>(headers);
-
-
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(baseUrl, HttpMethod.GET, entity, String.class);
-
         System.out.println(response.getBody());
-
         return response.getBody();
     }
 
@@ -234,7 +221,6 @@ public class CoinServiceImpl implements CoinService{
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
         requestFactory.setConnectTimeout(10000); // 10 seconds
         requestFactory.setReadTimeout(10000); // 10 seconds
-
         RestTemplate restTemplate = new RestTemplate(requestFactory);
         try {
             HttpHeaders headers = new HttpHeaders();

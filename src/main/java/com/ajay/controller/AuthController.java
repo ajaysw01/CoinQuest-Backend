@@ -85,7 +85,7 @@ public class AuthController {
 
 
 		User savedUser = userRepository.save(createdUser);
-		System.out.println(savedUser.getFullName());
+		System.out.println(savedUser.getFullName()                                                          );
 
 
 		watchlistService.createWatchList(savedUser);

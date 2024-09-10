@@ -27,8 +27,6 @@ public class UserServiceImplementation implements UserService {
 	@Override
 	public User findUserProfileByJwt(String jwt) throws UserException {
 		String email= JwtProvider.getEmailFromJwtToken(jwt);
-		
-		
 		User user = userRepository.findByEmail(email);
 		
 		if(user==null) {
@@ -39,21 +37,16 @@ public class UserServiceImplementation implements UserService {
 	
 	@Override
 	public User findUserByEmail(String username) throws UserException {
-		
 		User user=userRepository.findByEmail(username);
-		
 		if(user!=null) {
-			
 			return user;
 		}
-		
 		throw new UserException("user not exist with username "+username);
 	}
 
 	@Override
 	public User findUserById(Long userId) throws UserException {
 		Optional<User> opt = userRepository.findById(userId);
-		
 		if(opt.isEmpty()) {
 			throw new UserException("user not found with id "+userId);
 		}
@@ -72,7 +65,6 @@ public class UserServiceImplementation implements UserService {
 		TwoFactorAuth twoFactorAuth=new TwoFactorAuth();
 		twoFactorAuth.setEnabled(true);
 		twoFactorAuth.setSendTo(verificationType);
-
 		user.setTwoFactorAuth(twoFactorAuth);
 		return userRepository.save(user);
 	}

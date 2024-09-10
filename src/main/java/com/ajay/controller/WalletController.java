@@ -74,7 +74,7 @@ public class WalletController {
             @RequestHeader("Authorization")String jwt,
             @RequestParam(name="order_id") Long orderId,
             @RequestParam(name="payment_id")String paymentId
-            ) throws Exception {
+    ) throws Exception {
         User user =userService.findUserProfileByJwt(jwt);
         Wallet wallet = walleteService.getUserWallet(user);
 
@@ -103,7 +103,7 @@ public class WalletController {
 
     @PutMapping("/api/wallet/{walletId}/transfer")
     public ResponseEntity<Wallet> walletToWalletTransfer(@RequestHeader("Authorization")String jwt,
-                                                        @PathVariable Long walletId,
+                                                         @PathVariable Long walletId,
                                                          @RequestBody WalletTransaction req
     ) throws Exception {
         User senderUser =userService.findUserProfileByJwt(jwt);
